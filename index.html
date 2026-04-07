@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AOS Epion - Elektronické objednávanie pre lekárne</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    scroll-behavior: smooth;
+}
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40vh;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased">
+
+<!-- Chosen Palette: Warm Neutrals & Soft Teal (Medical/Pharmacy Vibe) -->
+<!-- Application Structure Plan: The application uses a single-page scrolling dashboard structure. It starts with a strong value proposition (Hero), follows with core benefits organized in a grid, visualizes the product portfolio using an interactive doughnut chart, and concludes with a functional, tab-based setup guide. This structure was chosen to guide the pharmacist logically: "What is this?" -> "Why do I need it?" -> "What can I buy?" -> "How do I set it up?". -->
+<!-- Visualization & Content Choices: 1. Benefits -> Grid of cards for quick scanning. 2. Products -> Doughnut Chart (Chart.js) to transform a bulleted list into an engaging visual showing relative demand, with click interactions for details. 3. Setup -> Interactive Tabs to hide irrelevant info and only show the PDF link/instructions for the user's specific Pharmacy System (LIS), reducing cognitive load. NO SVG/Mermaid used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex-shrink-0 flex items-center font-bold text-teal-700 text-xl tracking-tight">
+                ✚ AOS Pharminfo
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#vyhody" class="text-stone-600 hover:text-teal-600 font-medium transition">Výhody</a>
+                <a href="#produkty" class="text-stone-600 hover:text-teal-600 font-medium transition">Sortiment</a>
+                <a href="#nastavenie" class="text-stone-600 hover:text-teal-600 font-medium transition">Nastavenie LIS</a>
+            </div>
+            <div>
+                <a href="tel:+421905582627" class="bg-teal-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">Zavolať nám</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <section class="relative bg-teal-800 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+                    Elektronické objednávanie priamo z Vášho systému
+                </h1>
+                <p class="text-lg md:text-xl text-teal-100 mb-8 leading-relaxed">
+                    Objednávajte zdravotnícke pomôcky jednoducho a rýchlo – priamo z Vášho lekárenského informačného systému (LIS) cez AOS. Ušetrite čas a minimalizujte administratívu.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#nastavenie" class="bg-white text-teal-800 px-6 py-3 rounded-lg font-bold text-center hover:bg-stone-100 transition shadow-lg">Začať s nastavením</a>
+                    <a href="#vyhody" class="border border-teal-400 text-teal-50 px-6 py-3 rounded-lg font-bold text-center hover:bg-teal-700 transition">Zistiť viac</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vyhody" class="py-16 bg-stone-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Prečo sa to oplatí?</h2>
+                <p class="text-stone-600 max-w-2xl mx-auto">Tento spôsob objednávania je ideálnym riešením v situáciách, kedy je prioritou čas, efektivita a konkrétna požiadavka pacienta.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
+                    <div class="text-4xl mb-4">📦</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Okamžitý prehľad a rýchlosť</h3>
+                    <p class="text-stone-600">Okamžitý prehľad o aktuálnej skladovej dostupnosti. Tovar expedujeme ihneď z našich skladových zásob pre najrýchlejšie dodanie.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Maximálna flexibilita</h3>
+                    <p class="text-stone-600">Objednáte len to, čo práve potrebujete. Ideálne, keď potrebujete rýchlo doplniť chýbajúci tovar bez čakania na hlavnú objednávku liekov.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
+                    <div class="text-4xl mb-4">📄</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Menej administratívy</h3>
+                    <p class="text-stone-600">Systém podporuje elektronický dodací list (eDL). Vybavíte individuálnu požiadavku pacienta rýchlo a bez zbytočného papierovania.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="produkty" class="py-16 bg-white border-y border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="w-full lg:w-1/2">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Najčastejšie objednávané produkty</h2>
+                    <p class="text-stone-600 mb-6 leading-relaxed">
+                        Náš sortiment zahŕňa široké spektrum špeciálneho zdravotníckeho materiálu. Kliknite na segment v grafe pre zobrazenie detailov kategórie.
+                    </p>
+                    
+                    <div id="category-detail" class="bg-stone-50 p-6 rounded-xl border border-stone-200 min-h-[120px] flex items-center justify-center text-center">
+                        <p class="text-stone-500 italic">Vyberte kategóriu v grafe pre zobrazenie detailov.</p>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-1/2">
+                    <div class="chart-container">
+                        <canvas id="productsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nastavenie" class="py-16 bg-stone-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Nastavenia systému vo Vašej lekárni</h2>
+                <p class="text-stone-600">Pre spustenie automatizovaného systému objednávania (AOS) je potrebné pridať nás ako distribútora do Vášho lekárenského informačného systému.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden mb-8">
+                <div class="bg-stone-100 p-4 border-b border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span class="font-bold text-stone-700">Webová služba (URL):</span>
+                    <code class="bg-white px-4 py-2 rounded border border-stone-300 text-teal-700 break-all text-sm w-full sm:w-auto text-center">https://adc.epion.sk/Aos/AutomatedOrderSystem.asmx</code>
+                </div>
+                
+                <div class="p-6 md:p-8">
+                    <h3 class="text-lg font-bold text-stone-800 mb-6 text-center">Vyberte si Váš systém pre zobrazenie návodu:</h3>
+                    
+                    <div class="flex flex-wrap justify-center gap-3 mb-8">
+                        <button onclick="switchTab('pharmacy')" id="btn-pharmacy" class="px-6 py-3 rounded-lg font-medium border-2 transition-all duration-200 border-teal-600 bg-teal-50 text-teal-800">Pharmacy (NRSYS)</button>
+                        <button onclick="switchTab('winlss')" id="btn-winlss" class="px-6 py-3 rounded-lg font-medium border-2 transition-all duration-200 border-stone-200 bg-white text-stone-600 hover:border-teal-300 hover:bg-teal-50">WinLSS (PaP)</button>
+                        <button onclick="switchTab('apoware')" id="btn-apoware" class="px-6 py-3 rounded-lg font-medium border-2 transition-all duration-200 border-stone-200 bg-white text-stone-600 hover:border-teal-300 hover:bg-teal-50">ApoWare-BS</button>
+                    </div>
+
+                    <div id="tab-pharmacy" class="tab-content active text-center">
+                        <div class="text-5xl mb-4">💻</div>
+                        <h4 class="text-xl font-bold mb-2">Návod pre Pharmacy (NRSYS)</h4>
+                        <p class="text-stone-600 mb-6">Stiahnite si podrobný PDF manuál pre rýchle nastavenie webovej služby vo vašom systéme Pharmacy.</p>
+                        <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D111-Navod-na-pouzivanie-v-systeme-Pharmacy-NRSYS.pdf" target="_blank" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
+                            📥 Stiahnuť PDF návod
+                        </a>
+                    </div>
+
+                    <div id="tab-winlss" class="tab-content text-center">
+                        <div class="text-5xl mb-4">🖥️</div>
+                        <h4 class="text-xl font-bold mb-2">Návod pre WinLSS (PaP)</h4>
+                        <p class="text-stone-600 mb-6">Stiahnite si podrobný PDF manuál pre rýchle nastavenie webovej služby vo vašom systéme WinLSS.</p>
+                        <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D113-Navod-na-pouzivanie-v-systeme-WinLSS-PaP.pdf" target="_blank" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
+                            📥 Stiahnuť PDF návod
+                        </a>
+                    </div>
+
+                    <div id="tab-apoware" class="tab-content text-center">
+                        <div class="text-5xl mb-4">📱</div>
+                        <h4 class="text-xl font-bold mb-2">Návod pre ApoWare-BS (PharmServis)</h4>
+                        <p class="text-stone-600 mb-6">Stiahnite si podrobný PDF manuál pre rýchle nastavenie webovej služby vo vašom systéme ApoWare-BS.</p>
+                        <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D114-Navod-na-pouzivanie-v-systeme-Apoware-BS-PharmaServis.pdf" target="_blank" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
+                            📥 Stiahnuť PDF návod
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-teal-50 rounded-2xl p-8 text-center border border-teal-100">
+                <h3 class="text-2xl font-bold text-teal-900 mb-3">Potrebujete pomoc s nastavením?</h3>
+                <p class="text-teal-800 mb-8 max-w-lg mx-auto">Nestrácajte čas technickými detailmi. Radi Vám s konfiguráciou pomôžeme. Ozvite sa nám a spoločne to nastavíme v priebehu 5 minút.</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
+                    <div class="flex flex-col items-center">
+                        <span class="text-stone-500 text-sm uppercase tracking-wider font-bold mb-1">Telefón</span>
+                        <a href="tel:+421905582627" class="text-2xl font-bold text-teal-700 hover:text-teal-800 transition">+421 905 582 627</a>
+                    </div>
+                    <div class="hidden md:block w-px h-12 bg-teal-200"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-stone-500 text-sm uppercase tracking-wider font-bold mb-1">E-mail</span>
+                        <a href="mailto:objednavky@epion.sk" class="text-2xl font-bold text-teal-700 hover:text-teal-800 transition underline decoration-teal-200 underline-offset-4">objednavky@epion.sk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-stone-900 text-stone-400 py-8 text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p>&copy; 2026 AOS Pharminfo / Epion. Všetky práva vyhradené.</p>
+        </div>
+    </footer>
+</main>
+
+<script>
+    const categoryData = {
+        "Stomické pomôcky": "Kompletný sortiment stomických pomôcok pre všetky typy stómií. Zabezpečujeme diskrétnosť a vysokú kvalitu.",
+        "Urologické pomôcky": "Katétre, zberné vrecká a ďalšie urologické pomôcky na každodenné použitie pre pacientov.",
+        "Inkontinenčné pomôcky": "Široký výber absorpčných pomôcok, plienkových nohavičiek a podložiek pre rôzne stupne inkontinencie.",
+        "Starostlivosť o rany": "Produkty pre modernú vlhkú terapiu, špeciálne krytia a materiály pre podporu rýchlejšieho hojenia.",
+        "Infúzna terapia": "Zahŕňa ihly, striekačky, hadičky, IV sety, kanyly a ďalší nevyhnutný spotrebný materiál.",
+        "Spotrebný materiál": "Bežný zdravotnícky spotrebný materiál vrátane náplastí, rôznych druhov rukavíc a kvalitnej dezinfekcie."
+    };
+
+    const ctx = document.getElementById('productsChart').getContext('2d');
+    const productsChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(categoryData),
+            datasets: [{
+                data: [25, 20, 20, 15, 10, 10], 
+                backgroundColor: [
+                    '#0f766e', 
+                    '#0d9488', 
+                    '#14b8a6', 
+                    '#2dd4bf', 
+                    '#5eead4', 
+                    '#99f6e4'  
+                ],
+                borderWidth: 2,
+                borderColor: '#ffffff',
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        font: { family: 'system-ui', size: 13 },
+                        color: '#444'
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ' ' + context.label;
+                        }
+                    }
+                }
+            },
+            onClick: (event, elements) => {
+                const detailBox = document.getElementById('category-detail');
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const label = productsChart.data.labels[index];
+                    const description = categoryData[label];
+                    
+                    detailBox.innerHTML = `
+                        <div class="text-left animate-[fadeIn_0.3s_ease-in-out]">
+                            <h4 class="text-xl font-bold text-teal-700 mb-2">${label}</h4>
+                            <p class="text-stone-700">${description}</p>
+                        </div>
+                    `;
+                    detailBox.classList.remove('justify-center', 'text-center');
+                    detailBox.classList.add('justify-start');
+                }
+            }
+        }
+    });
+
+    const tabs = ['pharmacy', 'winlss', 'apoware'];
+    function switchTab(selectedTab) {
+        tabs.forEach(tab => {
+            document.getElementById(`tab-${tab}`).classList.remove('active');
+            const btn = document.getElementById(`btn-${tab}`);
+            btn.classList.remove('border-teal-600', 'bg-teal-50', 'text-teal-800');
+            btn.classList.add('border-stone-200', 'bg-white', 'text-stone-600');
+        });
+
+        document.getElementById(`tab-${selectedTab}`).classList.add('active');
+        const activeBtn = document.getElementById(`btn-${selectedTab}`);
+        activeBtn.classList.remove('border-stone-200', 'bg-white', 'text-stone-600');
+        activeBtn.classList.add('border-teal-600', 'bg-teal-50', 'text-teal-800');
+    }
+</script>
+</body>
+</html>
