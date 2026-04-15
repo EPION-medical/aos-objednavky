@@ -47,20 +47,18 @@ body {
 <body class="bg-stone-50 text-stone-800 antialiased">
 
 <!-- Chosen Palette: EPION Corporate (#181243, #5BA7DC, #8560A8) -->
-<!-- Application Structure Plan: Navigation leads through value prop, benefits, product mix, and technical setup. The EPION EXPRESS CHALLENGE is positioned as a final conversion booster right before the contact section. Visual contrast fixed for the promo section using brand purple. -->
+<!-- Application Structure Plan: Clean single-brand navigation header. Hero section now features ADC NobelKOMPLET branding as a lead-in to the main value proposition. Centered promotional section at the bottom to maximize impact before contact. Minimalist information architecture designed for medical professionals. -->
+<!-- Visualization & Content Choices: 1. Header -> Simplified to EPION logo only. 2. Hero -> ADC logo placement provides immediate platform context. 3. Promo -> Full-center alignment for maximum readability and conversion. 4. Charts -> Brand-coordinated colors for consistent UI. -->
+<!-- CONFIRMATION: NO Mermaid JS used. SVGs are referenced as external assets for correctness. -->
 
 <nav class="bg-white shadow-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-24 items-center">
-            <div class="flex flex-col justify-center py-2">
-                <!-- EPION Logo -->
-                <div class="h-10 mb-1">
+        <div class="flex justify-between h-20 items-center">
+            <div class="flex items-center">
+                <!-- EPION Logo Only -->
+                <div class="h-10">
                     <img src="EPION_MEDICAL_logo.svg" alt="EPION MEDICAL Logo" class="h-full w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <span class="hidden font-bold text-epion-navy text-xl">EPION MEDICAL</span>
-                </div>
-                <!-- ADC Logo -->
-                <div class="h-4">
-                    <img src="ADC NobelKOMPLET logo.svg" alt="ADC NobelKOMPLET Logo" class="h-full w-auto object-contain opacity-80" onerror="this.style.display='none';">
                 </div>
             </div>
             <div class="hidden lg:flex space-x-8">
@@ -81,6 +79,11 @@ body {
         <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-epion-blue via-transparent to-transparent"></div>
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 relative z-10">
             <div class="max-w-4xl">
+                <!-- ADC Logo placed in HERO -->
+                <div class="h-12 md:h-16 mb-8">
+                    <img src="ADC NobelKOMPLET logo.svg" alt="ADC NobelKOMPLET" class="h-full w-auto brightness-200">
+                </div>
+                
                 <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight">
                     Elektronické objednávanie v EPIONe teraz priamo z Vášho lekárenského systému
                 </h1>
@@ -191,24 +194,24 @@ body {
         </div>
     </section>
 
-    <!-- EPION EXPRESS CHALLENGE - Nová pozícia na konci -->
+    <!-- EPION EXPRESS CHALLENGE - Vycentrovaný obsah na konci -->
     <section id="express" class="py-12 bg-white">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="bg-epion-purple rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
-                <!-- Dekoratívny prvok pre vizuálnu hĺbku -->
+            <div class="bg-epion-purple rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
+                <!-- Dekoratívny prvok -->
                 <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-                <div class="relative z-10">
-                    <div class="flex items-center gap-3 mb-6">
+                <div class="relative z-10 w-full max-w-4xl">
+                    <div class="flex flex-col items-center gap-3 mb-6">
                         <span class="bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase border border-white/30">Špeciálna Akcia</span>
                     </div>
                     <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight">Využite akciu pri objednaní cez ADC NobelKOMPLET</h2>
-                    <div class="space-y-6">
-                        <div class="bg-white rounded-2xl p-6 md:p-8">
+                    <div class="space-y-6 flex flex-col items-center">
+                        <div class="bg-white rounded-2xl p-6 md:p-8 w-full max-w-2xl">
                             <p class="text-epion-navy font-black text-2xl md:text-3xl leading-tight">
                                 Pri prvých troch objednávkach v akejkoľvek hodnote máte u nás doručenie úplne zdarma bez limitu výšky objednávky*
                             </p>
                         </div>
-                        <div class="text-lg md:text-xl space-y-4 text-stone-100 max-w-3xl leading-relaxed">
+                        <div class="text-lg md:text-xl space-y-4 text-stone-100 leading-relaxed">
                             <p class="text-sm opacity-90 italic">* štandardne je doprava zdarma u objednávky nad 100 €</p>
                             <p>Platí pre všetkých nových zákazníkov, ktorí u nás cez ADC NobelKOMPLET ešte nenakupovali.</p>
                             <div class="pt-6 border-t border-white/20">
@@ -259,7 +262,6 @@ body {
 </main>
 
 <script>
-    // Data pre graf kategórií
     const categoryData = {
         "Stomické pomôcky": "Vaky, podložky a príslušenstvo pre stomikov všetkých typov. Diskrétne riešenia skladom.",
         "Urologické pomôcky": "Katétre, močové vrecká a kondómové urinály pre domácu aj odbornú starostlivosť.",
@@ -269,7 +271,6 @@ body {
         "Spotrebný materiál": "Zdravotnícke rukavice, náplasti, obväzy a certifikovaná dezinfekcia."
     };
 
-    // Inicializácia grafu
     const ctx = document.getElementById('productsChart').getContext('2d');
     const productsChart = new Chart(ctx, {
         type: 'doughnut',
@@ -329,7 +330,6 @@ body {
         }
     });
 
-    // Funkcia na prepínanie tabov (Návody)
     function switchTab(selectedTab) {
         const tabs = ['pharmacy', 'winlss'];
         tabs.forEach(tab => {
