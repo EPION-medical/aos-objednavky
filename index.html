@@ -3,10 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AOS Epion - Elektronické objednávanie pre lekárne</title>
+<title>EPION - Elektronické objednávanie cez ADC NobelKOMPLET</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
+:root {
+    --epion-navy: #181243;
+    --epion-blue: #5BA7DC;
+    --epion-purple: #8560A8;
+}
 body {
     font-family: system-ui, -apple-system, sans-serif;
     scroll-behavior: smooth;
@@ -20,11 +25,6 @@ body {
     height: 40vh;
     max-height: 400px;
 }
-@media (min-width: 768px) {
-    .chart-container {
-        height: 350px;
-    }
-}
 .tab-content {
     display: none;
 }
@@ -36,93 +36,106 @@ body {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+.bg-epion-navy { background-color: var(--epion-navy); }
+.text-epion-navy { color: var(--epion-navy); }
+.border-epion-navy { border-color: var(--epion-navy); }
+.bg-epion-blue { background-color: var(--epion-blue); }
+.text-epion-blue { color: var(--epion-blue); }
+.bg-epion-purple { background-color: var(--epion-purple); }
 </style>
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased">
 
-<!-- Chosen Palette: Warm Neutrals & Soft Teal (Medical/Pharmacy Vibe) -->
-<!-- Application Structure Plan: The application uses a single-page scrolling dashboard structure. It starts with a strong value proposition (Hero), follows with core benefits organized in a grid, visualizes the product portfolio using an interactive doughnut chart, and concludes with a functional, tab-based setup guide. This structure was chosen to guide the pharmacist logically: "What is this?" -> "Why do I need it?" -> "What can I buy?" -> "How do I set it up?". -->
-<!-- Visualization & Content Choices: 1. Benefits -> Grid of cards for quick scanning. 2. Products -> Doughnut Chart (Chart.js) to transform a bulleted list into an engaging visual showing relative demand, with click interactions for details. 3. Setup -> Interactive Tabs to hide irrelevant info and only show the PDF link/instructions for the user's specific Pharmacy System (LIS), reducing cognitive load. NO SVG/Mermaid used. -->
-<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!-- Chosen Palette: EPION Corporate (#181243, #5BA7DC, #8560A8) -->
+<!-- Application Structure Plan: Navigation leads through value prop, benefits, product mix, and technical setup. The EPION EXPRESS CHALLENGE is positioned as a final conversion booster right before the contact section. Visual contrast fixed for the promo section using brand purple. -->
 
-<nav class="bg-white shadow-sm sticky top-0 z-50">
+<nav class="bg-white shadow-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex-shrink-0 flex items-center font-bold text-teal-700 text-xl tracking-tight">
-                ✚ AOS Pharminfo
+        <div class="flex justify-between h-24 items-center">
+            <div class="flex flex-col justify-center py-2">
+                <!-- EPION Logo -->
+                <div class="h-10 mb-1">
+                    <img src="EPION_MEDICAL_logo.svg" alt="EPION MEDICAL Logo" class="h-full w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="hidden font-bold text-epion-navy text-xl">EPION MEDICAL</span>
+                </div>
+                <!-- ADC Logo -->
+                <div class="h-4">
+                    <img src="ADC NobelKOMPLET logo.svg" alt="ADC NobelKOMPLET Logo" class="h-full w-auto object-contain opacity-80" onerror="this.style.display='none';">
+                </div>
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#vyhody" class="text-stone-600 hover:text-teal-600 font-medium transition">Výhody</a>
-                <a href="#produkty" class="text-stone-600 hover:text-teal-600 font-medium transition">Sortiment</a>
-                <a href="#nastavenie" class="text-stone-600 hover:text-teal-600 font-medium transition">Nastavenie LIS</a>
+            <div class="hidden lg:flex space-x-8">
+                <a href="#vyhody" class="text-stone-600 hover:text-epion-blue font-medium transition">Výhody</a>
+                <a href="#produkty" class="text-stone-600 hover:text-epion-blue font-medium transition">Sortiment</a>
+                <a href="#express" class="text-epion-purple hover:text-epion-navy font-bold transition">Limitovaná akcia</a>
             </div>
             <div>
-                <a href="tel:+421905582627" class="bg-teal-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">Zavolať nám</a>
+                <a href="https://epion.sk/kontakt" target="_blank" class="bg-epion-blue text-white px-5 py-2.5 rounded-lg font-bold hover:brightness-110 transition shadow-sm">Kontaktujte nás</a>
             </div>
         </div>
     </div>
 </nav>
 
 <main>
-    <section class="relative bg-teal-800 text-white overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10">
-            <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
-                    Elektronické objednávanie priamo z Vášho systému
+    <!-- Hero Section -->
+    <section class="relative bg-epion-navy text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-epion-blue via-transparent to-transparent"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 relative z-10">
+            <div class="max-w-4xl">
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight">
+                    Elektronické objednávanie v EPIONe teraz priamo z Vášho lekárenského systému
                 </h1>
-                <p class="text-lg md:text-xl text-teal-100 mb-8 leading-relaxed">
-                    Objednávajte zdravotnícke pomôcky jednoducho a rýchlo – priamo z Vášho lekárenského informačného systému (LIS) cez AOS. Ušetrite čas a minimalizujte administratívu.
+                <p class="text-xl md:text-2xl text-stone-200 mb-10 leading-relaxed max-w-3xl">
+                    Objednávajte zdravotnícke pomôcky v distribučnej spoločnosti EPION rovnako ako u ostatných distribútorov - Elektronicky cez ADC NobelKOMPLET. Stačí jednoduché nastavenie a môžete začať!
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#nastavenie" class="bg-white text-teal-800 px-6 py-3 rounded-lg font-bold text-center hover:bg-stone-100 transition shadow-lg">Začať s nastavením</a>
-                    <a href="#vyhody" class="border border-teal-400 text-teal-50 px-6 py-3 rounded-lg font-bold text-center hover:bg-teal-700 transition">Zistiť viac</a>
+                <div class="flex flex-col sm:flex-row gap-5">
+                    <a href="#nastavenie" class="bg-epion-blue text-white px-8 py-4 rounded-xl font-bold text-center text-lg hover:brightness-110 transition shadow-xl">Nastaviť systém</a>
+                    <a href="#vyhody" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-center text-lg hover:bg-white/20 transition">Viac o výhodách</a>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Prečo sa to oplatí -->
     <section id="vyhody" class="py-16 bg-stone-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-stone-800 mb-4">Prečo sa to oplatí?</h2>
-                <p class="text-stone-600 max-w-2xl mx-auto">Tento spôsob objednávania je ideálnym riešením v situáciách, kedy je prioritou čas, efektivita a konkrétna požiadavka pacienta.</p>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-epion-navy mb-4">Prečo sa to oplatí?</h2>
+                <div class="w-24 h-1.5 bg-epion-blue mx-auto rounded-full"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
-                    <div class="text-4xl mb-4">📦</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Okamžitý prehľad a rýchlosť</h3>
-                    <p class="text-stone-600">Okamžitý prehľad o aktuálnej skladovej dostupnosti. Tovar expedujeme ihneď z našich skladových zásob pre najrýchlejšie dodanie.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 hover:border-epion-blue/30 transition group">
+                    <div class="w-16 h-16 bg-epion-blue/10 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-epion-blue group-hover:text-white transition-colors duration-300">📱</div>
+                    <h3 class="text-2xl font-bold text-epion-navy mb-4">On-line prehľad</h3>
+                    <p class="text-stone-600 leading-relaxed">Okamžitý prehľad o aktuálnej skladovej dostupnosti. Tovar expedujeme ihneď z našich skladových zásob pre najrýchlejšie dodanie.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
-                    <div class="text-4xl mb-4">⚡</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Maximálna flexibilita</h3>
-                    <p class="text-stone-600">Objednáte len to, čo práve potrebujete. Ideálne, keď potrebujete rýchlo doplniť chýbajúci tovar bez čakania na hlavnú objednávku liekov.</p>
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 hover:border-epion-blue/30 transition group">
+                    <div class="w-16 h-16 bg-epion-blue/10 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-epion-blue group-hover:text-white transition-colors duration-300">⚡</div>
+                    <h3 class="text-2xl font-bold text-epion-navy mb-4">Maximálna flexibilita</h3>
+                    <p class="text-stone-600 leading-relaxed">Objednáte len to, čo práve potrebujete. Ideálne, keď potrebujete rýchlo doplniť chýbajúci tovar bez čakania na hlavnú objednávku liekov.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
-                    <div class="text-4xl mb-4">📄</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Menej administratívy</h3>
-                    <p class="text-stone-600">Systém podporuje elektronický dodací list (eDL). Vybavíte individuálnu požiadavku pacienta rýchlo a bez zbytočného papierovania.</p>
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 hover:border-epion-blue/30 transition group">
+                    <div class="w-16 h-16 bg-epion-blue/10 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-epion-blue group-hover:text-white transition-colors duration-300">📄</div>
+                    <h3 class="text-2xl font-bold text-epion-navy mb-4">Menej administratívy</h3>
+                    <p class="text-stone-600 leading-relaxed">Systém podporuje elektronický dodací list (eDL). Vybavíte individuálnu požiadavku pacienta rýchlo a bez zbytočného papierovania.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="produkty" class="py-16 bg-white border-y border-stone-200">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
+    <!-- Sortiment -->
+    <section id="produkty" class="py-20 bg-white border-y border-stone-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
                 <div class="w-full lg:w-1/2">
-                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Najčastejšie objednávané produkty</h2>
-                    <p class="text-stone-600 mb-6 leading-relaxed">
-                        Náš sortiment zahŕňa široké spektrum špeciálneho zdravotníckeho materiálu. Kliknite na segment v grafe pre zobrazenie detailov kategórie.
+                    <h2 class="text-4xl font-bold text-epion-navy mb-6">Široký sortiment pomôcok</h2>
+                    <p class="text-lg text-stone-600 mb-8 leading-relaxed">
+                        Cez ADC NobelKOMPLET u nás najčastejšie objednávate tieto kategórie. Kliknite na segment v grafe pre viac detailov o dostupných produktoch.
                     </p>
-                    
-                    <div id="category-detail" class="bg-stone-50 p-6 rounded-xl border border-stone-200 min-h-[120px] flex items-center justify-center text-center">
-                        <p class="text-stone-500 italic">Vyberte kategóriu v grafe pre zobrazenie detailov.</p>
+                    <div id="category-detail" class="bg-stone-50 p-8 rounded-2xl border-l-8 border-epion-blue min-h-[140px] flex items-center shadow-inner">
+                        <p class="text-stone-500 font-medium">Vyberte kategóriu v grafe pre zobrazenie informácií.</p>
                     </div>
                 </div>
-                
                 <div class="w-full lg:w-1/2">
                     <div class="chart-container">
                         <canvas id="productsChart"></canvas>
@@ -132,111 +145,149 @@ body {
         </div>
     </section>
 
-    <section id="nastavenie" class="py-16 bg-stone-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-stone-800 mb-4">Nastavenia systému vo Vašej lekárni</h2>
-                <p class="text-stone-600">Pre spustenie automatizovaného systému objednávania (AOS) je potrebné pridať nás ako distribútora do Vášho lekárenského informačného systému.</p>
+    <!-- Nastavenia systému -->
+    <section id="nastavenie" class="py-20 bg-stone-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-extrabold text-epion-navy mb-6">Nastavenia systému vo Vašej lekárni</h2>
+                <p class="text-lg text-stone-600 leading-relaxed">
+                    Pre aktiváciu elektronického objednávania cez ADC NobelKOMPLET v EPIONe je potrebné pridať si distribútora EPION ako dodávateľa vo Vašom lekárenskom informačnom systéme. Je to jednoduché a rýchle.
+                </p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden mb-8">
-                <div class="bg-stone-100 p-4 border-b border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <span class="font-bold text-stone-700">Webová služba (URL):</span>
-                    <code class="bg-white px-4 py-2 rounded border border-stone-300 text-teal-700 break-all text-sm w-full sm:w-auto text-center">https://adc.epion.sk/Aos/AutomatedOrderSystem.asmx</code>
+            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden mb-12">
+                <div class="bg-epion-navy p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span class="font-bold text-white tracking-wide">Webová služba (URL):</span>
+                    <code class="bg-white/10 px-6 py-3 rounded-xl border border-white/20 text-white font-mono break-all text-sm w-full sm:w-auto text-center">https://adc.epion.sk/Aos/AutomatedOrderSystem.asmx</code>
                 </div>
                 
-                <div class="p-6 md:p-8">
-                    <h3 class="text-lg font-bold text-stone-800 mb-6 text-center">Vyberte si Váš systém pre zobrazenie návodu:</h3>
-                    
-                    <div class="flex flex-wrap justify-center gap-3 mb-8">
-                        <button onclick="switchTab('pharmacy')" id="btn-pharmacy" class="px-6 py-3 rounded-lg font-medium border-2 transition-all duration-200 border-teal-600 bg-teal-50 text-teal-800">Pharmacy (NRSYS)</button>
-                        <button onclick="switchTab('winlss')" id="btn-winlss" class="px-6 py-3 rounded-lg font-medium border-2 transition-all duration-200 border-stone-200 bg-white text-stone-600 hover:border-teal-300 hover:bg-teal-50">WinLSS (PaP)</button>
-                        <button onclick="switchTab('apoware')" id="btn-apoware" class="px-6 py-3 rounded-lg font-medium border-2 transition-all duration-200 border-stone-200 bg-white text-stone-600 hover:border-teal-300 hover:bg-teal-50">ApoWare-BS</button>
+                <div class="p-8 md:p-12">
+                    <div class="flex justify-center gap-4 mb-10">
+                        <button onclick="switchTab('pharmacy')" id="btn-pharmacy" class="flex-1 px-8 py-4 rounded-xl font-bold border-2 transition-all duration-300 border-epion-blue bg-epion-blue text-white shadow-lg shadow-epion-blue/20">Pharmacy (NRSYS)</button>
+                        <button onclick="switchTab('winlss')" id="btn-winlss" class="flex-1 px-8 py-4 rounded-xl font-bold border-2 transition-all duration-300 border-stone-200 bg-white text-stone-600 hover:border-epion-blue hover:text-epion-blue">WinLSS (PaP)</button>
                     </div>
 
                     <div id="tab-pharmacy" class="tab-content active text-center">
-                        <div class="text-5xl mb-4">💻</div>
-                        <h4 class="text-xl font-bold mb-2">Návod pre Pharmacy (NRSYS)</h4>
-                        <p class="text-stone-600 mb-6">Stiahnite si podrobný PDF manuál pre rýchle nastavenie webovej služby vo vašom systéme Pharmacy.</p>
-                        <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D111-Navod-na-pouzivanie-v-systeme-Pharmacy-NRSYS.pdf" target="_blank" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
-                            📥 Stiahnuť PDF návod
-                        </a>
+                        <div class="bg-stone-50 rounded-2xl p-8 border border-stone-100 mb-8">
+                            <h4 class="text-2xl font-bold text-epion-navy mb-4">Návod pre Pharmacy (NRSYS)</h4>
+                            <p class="text-stone-600 mb-8">Stiahnite si dokumentáciu pre nastavenie distribútora EPION a aktiváciu platformy ADC NobelKOMPLET.</p>
+                            <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D111-Navod-na-pouzivanie-v-systeme-Pharmacy-NRSYS.pdf" target="_blank" class="inline-flex items-center bg-epion-blue text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg">
+                                <span>📥 Stiahnuť PDF návod</span>
+                            </a>
+                        </div>
                     </div>
 
                     <div id="tab-winlss" class="tab-content text-center">
-                        <div class="text-5xl mb-4">🖥️</div>
-                        <h4 class="text-xl font-bold mb-2">Návod pre WinLSS (PaP)</h4>
-                        <p class="text-stone-600 mb-6">Stiahnite si podrobný PDF manuál pre rýchle nastavenie webovej služby vo vašom systéme WinLSS.</p>
-                        <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D113-Navod-na-pouzivanie-v-systeme-WinLSS-PaP.pdf" target="_blank" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
-                            📥 Stiahnuť PDF návod
-                        </a>
-                    </div>
-
-                    <div id="tab-apoware" class="tab-content text-center">
-                        <div class="text-5xl mb-4">📱</div>
-                        <h4 class="text-xl font-bold mb-2">Návod pre ApoWare-BS (PharmServis)</h4>
-                        <p class="text-stone-600 mb-6">Stiahnite si podrobný PDF manuál pre rýchle nastavenie webovej služby vo vašom systéme ApoWare-BS.</p>
-                        <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D114-Navod-na-pouzivanie-v-systeme-Apoware-BS-PharmaServis.pdf" target="_blank" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
-                            📥 Stiahnuť PDF návod
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-teal-50 rounded-2xl p-8 text-center border border-teal-100">
-                <h3 class="text-2xl font-bold text-teal-900 mb-3">Potrebujete pomoc s nastavením?</h3>
-                <p class="text-teal-800 mb-8 max-w-lg mx-auto">Nestrácajte čas technickými detailmi. Radi Vám s konfiguráciou pomôžeme. Ozvite sa nám a spoločne to nastavíme v priebehu 5 minút.</p>
-                
-                <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
-                    <div class="flex flex-col items-center">
-                        <span class="text-stone-500 text-sm uppercase tracking-wider font-bold mb-1">Telefón</span>
-                        <a href="tel:+421905582627" class="text-2xl font-bold text-teal-700 hover:text-teal-800 transition">+421 905 582 627</a>
-                    </div>
-                    <div class="hidden md:block w-px h-12 bg-teal-200"></div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-stone-500 text-sm uppercase tracking-wider font-bold mb-1">E-mail</span>
-                        <a href="mailto:objednavky@epion.sk" class="text-2xl font-bold text-teal-700 hover:text-teal-800 transition underline decoration-teal-200 underline-offset-4">objednavky@epion.sk</a>
+                        <div class="bg-stone-50 rounded-2xl p-8 border border-stone-100 mb-8">
+                            <h4 class="text-2xl font-bold text-epion-navy mb-4">Návod pre WinLSS (PaP)</h4>
+                            <p class="text-stone-600 mb-8">Podrobný postup konfigurácie pre užívateľov softvéru od PaP pre okamžité objednávanie.</p>
+                            <a href="https://www.pharminfo.sk/wp-content/uploads/2025/02/NobelKOMPLET-D113-Navod-na-pouzivanie-v-systeme-WinLSS-PaP.pdf" target="_blank" class="inline-flex items-center bg-epion-blue text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg">
+                                <span>📥 Stiahnuť PDF návod</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-stone-900 text-stone-400 py-8 text-center">
+    <!-- EPION EXPRESS CHALLENGE - Nová pozícia na konci -->
+    <section id="express" class="py-12 bg-white">
         <div class="max-w-6xl mx-auto px-4">
-            <p>&copy; 2026 AOS Pharminfo / Epion. Všetky práva vyhradené.</p>
+            <div class="bg-epion-purple rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+                <!-- Dekoratívny prvok pre vizuálnu hĺbku -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase border border-white/30">Špeciálna Akcia</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight">Využite akciu pri objednaní cez ADC NobelKOMPLET</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-2xl p-6 md:p-8">
+                            <p class="text-epion-navy font-black text-2xl md:text-3xl leading-tight">
+                                Pri prvých troch objednávkach v akejkoľvek hodnote máte u nás doručenie úplne zdarma bez limitu výšky objednávky*
+                            </p>
+                        </div>
+                        <div class="text-lg md:text-xl space-y-4 text-stone-100 max-w-3xl leading-relaxed">
+                            <p class="text-sm opacity-90 italic">* štandardne je doprava zdarma u objednávky nad 100 €</p>
+                            <p>Platí pre všetkých nových zákazníkov, ktorí u nás cez ADC NobelKOMPLET ešte nenakupovali.</p>
+                            <div class="pt-6 border-t border-white/20">
+                                <p class="font-bold text-white text-2xl">Platnosť akcie: do 30.6.2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontakt Section -->
+    <section id="kontakt" class="py-20 bg-stone-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-gradient-to-br from-white to-stone-100 rounded-3xl p-10 text-center border border-stone-200 shadow-sm relative">
+                <h3 class="text-3xl font-bold text-epion-navy mb-4">Potrebujete pomoc s nastavením?</h3>
+                <p class="text-stone-600 mb-10 max-w-xl mx-auto">Nestrácajte čas technickými detailmi. Radi Vám s konfiguráciou pomôžeme. Ozvite sa nám a spoločne to nastavíme v priebehu 5 minút.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="flex flex-col items-center p-6 rounded-2xl bg-white shadow-sm border border-stone-100 hover:border-epion-blue transition">
+                        <span class="text-epion-blue font-bold text-xs uppercase tracking-widest mb-2">Telefón</span>
+                        <a href="tel:+421905582627" class="text-2xl font-black text-epion-navy hover:text-epion-blue transition">+421 905 582 627</a>
+                    </div>
+                    <div class="flex flex-col items-center p-6 rounded-2xl bg-white shadow-sm border border-stone-100 hover:border-epion-blue transition">
+                        <span class="text-epion-blue font-bold text-xs uppercase tracking-widest mb-2">E-mail</span>
+                        <a href="mailto:objednavky@epion.sk" class="text-2xl font-black text-epion-navy hover:text-epion-blue transition">objednavky@epion.sk</a>
+                    </div>
+                </div>
+
+                <!-- Footer Logo -->
+                <div class="max-w-[180px] mx-auto opacity-90 mt-4">
+                    <img src="EPION_MEDICAL_logo.svg" alt="EPION Logo" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-epion-navy text-stone-400 py-12">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm font-medium tracking-wide">&copy; 2026 EPION MEDICAL. Všetky práva vyhradené.</div>
+            <div class="flex gap-8 text-sm">
+                <a href="https://epion.sk/kontakt" target="_blank" class="hover:text-white transition">Kontakt</a>
+                <a href="#express" class="hover:text-white transition">Podmienky akcie</a>
+            </div>
         </div>
     </footer>
 </main>
 
 <script>
+    // Data pre graf kategórií
     const categoryData = {
-        "Stomické pomôcky": "Kompletný sortiment stomických pomôcok pre všetky typy stómií. Zabezpečujeme diskrétnosť a vysokú kvalitu.",
-        "Urologické pomôcky": "Katétre, zberné vrecká a ďalšie urologické pomôcky na každodenné použitie pre pacientov.",
-        "Inkontinenčné pomôcky": "Široký výber absorpčných pomôcok, plienkových nohavičiek a podložiek pre rôzne stupne inkontinencie.",
-        "Starostlivosť o rany": "Produkty pre modernú vlhkú terapiu, špeciálne krytia a materiály pre podporu rýchlejšieho hojenia.",
-        "Infúzna terapia": "Zahŕňa ihly, striekačky, hadičky, IV sety, kanyly a ďalší nevyhnutný spotrebný materiál.",
-        "Spotrebný materiál": "Bežný zdravotnícky spotrebný materiál vrátane náplastí, rôznych druhov rukavíc a kvalitnej dezinfekcie."
+        "Stomické pomôcky": "Vaky, podložky a príslušenstvo pre stomikov všetkých typov. Diskrétne riešenia skladom.",
+        "Urologické pomôcky": "Katétre, močové vrecká a kondómové urinály pre domácu aj odbornú starostlivosť.",
+        "Inkontinenčné pomôcky": "Plienky, nohavičky, vložky a podložky pre dospelých s vysokou absorpciou.",
+        "Starostlivosť o rany": "Moderné krytia pre vlhké hojenie chronických aj akútnych rán popredných značiek.",
+        "Infúzna terapia": "Kompletné sety, ihly, striekačky a kanyly pre bezpečnú aplikáciu liečiv a infúzií.",
+        "Spotrebný materiál": "Zdravotnícke rukavice, náplasti, obväzy a certifikovaná dezinfekcia."
     };
 
+    // Inicializácia grafu
     const ctx = document.getElementById('productsChart').getContext('2d');
     const productsChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: Object.keys(categoryData),
             datasets: [{
-                data: [25, 20, 20, 15, 10, 10], 
+                data: [30, 20, 20, 15, 8, 7], 
                 backgroundColor: [
-                    '#0f766e', 
-                    '#0d9488', 
-                    '#14b8a6', 
-                    '#2dd4bf', 
-                    '#5eead4', 
-                    '#99f6e4'  
+                    '#181243', 
+                    '#24205d', 
+                    '#5BA7DC', 
+                    '#8560A8', 
+                    '#a688c2', 
+                    '#7ab9e5'  
                 ],
-                borderWidth: 2,
+                borderWidth: 3,
                 borderColor: '#ffffff',
-                hoverOffset: 10
+                hoverOffset: 15
             }]
         },
         options: {
@@ -244,18 +295,19 @@ body {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'right',
+                    position: 'bottom',
                     labels: {
-                        font: { family: 'system-ui', size: 13 },
+                        padding: 20,
+                        font: { family: 'system-ui', size: 12, weight: 'bold' },
                         color: '#444'
                     }
                 },
                 tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return ' ' + context.label;
-                        }
-                    }
+                    backgroundColor: '#181243',
+                    titleFont: { size: 14 },
+                    bodyFont: { size: 13 },
+                    padding: 12,
+                    displayColors: false
                 }
             },
             onClick: (event, elements) => {
@@ -266,31 +318,31 @@ body {
                     const description = categoryData[label];
                     
                     detailBox.innerHTML = `
-                        <div class="text-left animate-[fadeIn_0.3s_ease-in-out]">
-                            <h4 class="text-xl font-bold text-teal-700 mb-2">${label}</h4>
-                            <p class="text-stone-700">${description}</p>
+                        <div class="animate-[fadeIn_0.3s_ease-in-out]">
+                            <h4 class="text-2xl font-black text-epion-navy mb-2">${label}</h4>
+                            <p class="text-stone-700 text-lg">${description}</p>
                         </div>
                     `;
                     detailBox.classList.remove('justify-center', 'text-center');
-                    detailBox.classList.add('justify-start');
                 }
             }
         }
     });
 
-    const tabs = ['pharmacy', 'winlss', 'apoware'];
+    // Funkcia na prepínanie tabov (Návody)
     function switchTab(selectedTab) {
+        const tabs = ['pharmacy', 'winlss'];
         tabs.forEach(tab => {
             document.getElementById(`tab-${tab}`).classList.remove('active');
             const btn = document.getElementById(`btn-${tab}`);
-            btn.classList.remove('border-teal-600', 'bg-teal-50', 'text-teal-800');
+            btn.classList.remove('border-epion-blue', 'bg-epion-blue', 'text-white', 'shadow-lg', 'shadow-epion-blue/20');
             btn.classList.add('border-stone-200', 'bg-white', 'text-stone-600');
         });
 
         document.getElementById(`tab-${selectedTab}`).classList.add('active');
         const activeBtn = document.getElementById(`btn-${selectedTab}`);
         activeBtn.classList.remove('border-stone-200', 'bg-white', 'text-stone-600');
-        activeBtn.classList.add('border-teal-600', 'bg-teal-50', 'text-teal-800');
+        activeBtn.classList.add('border-epion-blue', 'bg-epion-blue', 'text-white', 'shadow-lg', 'shadow-epion-blue/20');
     }
 </script>
 </body>
